@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Quest: University ESL Job Vocabulary Master</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- Font Awesome for clean educational icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Space Grotesk"', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom animations & interactive tile styles */
+    @keyframes pulse-subtle {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+    .tile-pop {
+      animation: pulse-subtle 0.25s ease-out;
+    }
+    .shake-anim {
+      animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(3px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+    .speaking-wave {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      height: 14px;
+    }
+    .speaking-wave span {
+      width: 3px;
+      height: 100%;
+      background-color: currentColor;
+      border-radius: 2px;
+      animation: soundWave 1s ease-in-out infinite alternate;
+    }
+    .speaking-wave span:nth-child(2) { animation-delay: 0.2s; }
+    .speaking-wave span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes soundWave {
+      0% { height: 20%; }
+      100% { height: 100%; }
+    }
+    /* Hide scrollbars gracefully */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+  <!-- TOP NAVIGATION / BRANDING BAR -->
+  <header class="bg-slate-800/90 backdrop-blur border-b border-slate-700/80 sticky top-0 z-40 px-4 sm:px-6 py-3 transition-colors">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Brand & Academic Tag -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 text-white font-black text-xl">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-display font-bold text-lg sm:text-xl tracking-tight text-white">Career Quest</h1>
+            <span class="text-[10px] tracking-wider uppercase font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 px-2 py-0.5 rounded-full">ESL / EFL University</span>
+          </div>
+          <p class="text-xs text-slate-400">Professional English Vocabulary Mastery</p>
+        </div>
+      </div>
+
+      <!-- Main Navigation Tabs -->
+      <nav class="flex items-center gap-1 sm:gap-2 bg-slate-900/80 p-1 rounded-xl border border-slate-700/60">
+        <button id="nav-unscramble" onclick="switchMode('unscramble')" class="nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-white bg-indigo-600 shadow-sm">
+          <i class="fa-solid fa-arrow-down-a-z"></i>
+          <span>Unscramble</span>
+        </button>
+        <button id="nav-hangman" onclick="switchMode('hangman')" class="nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+          <i class="fa-solid fa-puzzle-piece"></i>
+          <span>Mystery Word</span>
+        </button>
+        <button id="nav-professor" onclick="switchMode('professor')" class="nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <span>Professor Grid</span>
+        </button>
+      </nav>
+
+      <!-- Stats Bar & Global Audio Settings -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-700 text-xs font-mono">
+          <span class="text-amber-400 flex items-center gap-1"><i class="fa-solid fa-star"></i> <span id="stat-score">0</span> pts</span>
+          <span class="text-slate-500">|</span>
+          <span class="text-emerald-400 flex items-center gap-1"><i class="fa-solid fa-fire"></i> <span id="stat-streak">0x</span></span>
+        </div>
+        <button id="btn-toggle-sound" onclick="toggleMute()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center text-slate-300 text-sm transition" title="Toggle Sound FX">
+          <i id="sound-icon" class="fa-solid fa-volume-high"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTROL PANEL: DIFFICULTY, TIMER, RESTART -->
+  <div class="bg-slate-800/40 border-b border-slate-800/80 px-4 py-2.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+      
+      <!-- Difficulty Pill Selector -->
+      <div class="flex items-center gap-2">
+        <span class="text-slate-400 font-medium hidden sm:inline">Vocabulary Set:</span>
+        <div class="inline-flex rounded-lg p-0.5 bg-slate-900 border border-slate-700">
+          <button onclick="setDifficulty('level1')" id="diff-level1" class="diff-btn px-2.5 py-1 rounded-md font-medium text-xs transition bg-indigo-600 text-white shadow">
+            Level 1: Widely Known (10)
+          </button>
+          <button onclick="setDifficulty('level2')" id="diff-level2" class="diff-btn px-2.5 py-1 rounded-md font-medium text-xs text-slate-400 hover:text-slate-200 transition">
+            Level 2: Challenging (10)
+          </button>
+          <button onclick="setDifficulty('all')" id="diff-all" class="diff-btn px-2.5 py-1 rounded-md font-medium text-xs text-slate-400 hover:text-slate-200 transition">
+            All 20 Jobs
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Action Controls (Timer & Controls) -->
+      <div class="flex items-center gap-3">
+        <!-- Timer Selector -->
+        <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-700 px-2.5 py-1 rounded-lg">
+          <i class="fa-regular fa-clock text-slate-400"></i>
+          <select id="timer-setting" onchange="changeTimerSetting(this.value)" class="bg-transparent text-slate-200 text-xs font-medium focus:outline-none cursor-pointer">
+            <option value="0" class="bg-slate-800 text-white">Relaxed (No Timer)</option>
+            <option value="45" class="bg-slate-800 text-white">45s Challenge</option>
+            <option value="30" class="bg-slate-800 text-white">30s Rapid Fire</option>
+          </select>
+          <span id="timer-display" class="hidden font-mono font-bold text-amber-400 pl-1">45s</span>
+        </div>
+
+        <!-- Reset Progress Button -->
+        <button onclick="resetGameSession()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5 text-xs">
+          <i class="fa-solid fa-arrows-rotate"></i>
+          <span>Shuffle & Restart</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN VIEWPORT CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: WORD UNSCRAMBLE GAME              -->
+    <!-- ========================================== -->
+    <div id="view-unscramble" class="game-view flex flex-col flex-1 max-w-3xl mx-auto w-full gap-5">
+      
+      <!-- Progress & Clue Card -->
+      <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
+        <!-- Decorative accent gradient -->
+        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-300 font-bold text-xs border border-indigo-400/30" id="unscramble-q-num">1</span>
+            <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold" id="unscramble-q-total">Job 1 of 10</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="unscramble-tag" class="text-[11px] font-semibold uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Widely Known</span>
+            <button onclick="speakCurrentClue()" class="px-3 py-1 rounded-lg bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-indigo-200 text-xs font-medium flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-volume-high"></i>
+              <span>Read Clue</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Clue / Description -->
+        <div class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 relative">
+          <div class="text-xs font-semibold uppercase text-indigo-400 tracking-wider mb-1 flex items-center gap-1.5">
+            <i class="fa-regular fa-comment-dots"></i> Who Am I? (Job Role Clue)
+          </div>
+          <p id="unscramble-clue-text" class="text-slate-100 text-base sm:text-lg leading-relaxed font-normal">
+            Loading job description...
+          </p>
+        </div>
+
+        <!-- Hint Section -->
+        <div id="unscramble-hint-box" class="hidden mb-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs sm:text-sm flex items-start gap-2.5">
+          <i class="fa-regular fa-lightbulb text-amber-400 mt-0.5 text-base"></i>
+          <div>
+            <span class="font-bold">Pedagogical Hint:</span>
+            <span id="unscramble-hint-content" class="ml-1 text-slate-200"></span>
+          </div>
+        </div>
+
+        <!-- ANSWER SLOTS (Target Zone) -->
+        <div class="mt-4">
+          <div class="flex items-center justify-between text-xs text-slate-400 mb-2 font-medium">
+            <span>Your Assembled Job Title:</span>
+            <span id="unscramble-char-count">0 / 0 letters</span>
+          </div>
+
+          <!-- Answer Word Groups Container -->
+          <div id="unscramble-slots-container" class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 min-h-[58px] p-3 rounded-xl bg-slate-950/70 border-2 border-dashed border-slate-700">
+            <!-- Dynamically generated slots -->
+          </div>
+        </div>
+
+        <!-- SCRAMBLED LETTERS POOL (Interactive Source Tiles) -->
+        <div class="mt-6">
+          <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold text-center mb-3">
+            Tap tiles or type on your keyboard
+          </div>
+          <div id="unscramble-pool-container" class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
+            <!-- Dynamically generated pool tiles -->
+          </div>
+        </div>
+
+        <!-- Controls: Clear, Backspace, Hint, Skip -->
+        <div class="mt-8 pt-4 border-t border-slate-700/70 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <button onclick="unscrambleUndo()" class="px-3.5 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-delete-left"></i>
+              <span>Backspace</span>
+            </button>
+            <button onclick="unscrambleClearAll()" class="px-3.5 py-2 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-rotate-left"></i>
+              <span>Clear</span>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="btn-unscramble-hint" onclick="requestUnscrambleHint()" class="px-3.5 py-2 rounded-xl bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30 text-xs font-semibold flex items-center gap-1.5 transition">
+              <i class="fa-regular fa-lightbulb"></i>
+              <span>Get Clue Hint (-10 pts)</span>
+            </button>
+            <button onclick="skipCurrentWord()" class="px-3.5 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-semibold transition">
+              <span>Skip <i class="fa-solid fa-forward-step ml-1"></i></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick University Student Scaffolding Helper -->
+      <div class="bg-indigo-950/30 border border-indigo-900/50 rounded-xl p-3.5 text-xs text-indigo-300 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-keyboard text-indigo-400"></i>
+          <span><strong>Physical Keyboard Supported:</strong> Type letters directly, press <strong>Backspace</strong> to undo, or <strong>Enter</strong> to verify!</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: HANGMAN / MYSTERY WORD GAME       -->
+    <!-- ========================================== -->
+    <div id="view-hangman" class="game-view hidden flex flex-col flex-1 max-w-4xl mx-auto w-full gap-5">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+        
+        <!-- Left Column: Hangman Canvas / Gallows Visualizer -->
+        <div class="md:col-span-5 bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5 flex flex-col items-center justify-between shadow-xl">
+          <div class="w-full flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
+            <span>Lives Remaining:</span>
+            <div id="hangman-hearts" class="flex items-center gap-1 text-rose-500 text-sm">
+              <i class="fa-solid fa-heart"></i>
+              <i class="fa-solid fa-heart"></i>
+              <i class="fa-solid fa-heart"></i>
+              <i class="fa-solid fa-heart"></i>
+              <i class="fa-solid fa-heart"></i>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+
+          <!-- SVG Visual Gallows & Character -->
+          <div class="w-full flex items-center justify-center py-2">
+            <svg id="hangman-svg" viewBox="0 0 240 220" class="w-52 h-52 stroke-slate-200 fill-none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Base Platform -->
+              <line x1="20" y1="200" x2="160" y2="200" stroke="#64748b" stroke-width="6" />
+              <!-- Vertical Post -->
+              <line x1="60" y1="200" x2="60" y2="20" stroke="#64748b" stroke-width="6" />
+              <!-- Top Beam -->
+              <line x1="60" y1="20" x2="170" y2="20" stroke="#64748b" stroke-width="6" />
+              <!-- Support Diagonal -->
+              <line x1="60" y1="60" x2="100" y2="20" stroke="#64748b" stroke-width="4" />
+              <!-- Rope -->
+              <line x1="170" y1="20" x2="170" y2="50" stroke="#e2e8f0" stroke-width="3" stroke-dasharray="2,2" />
+
+              <!-- STAGE 1: Head -->
+              <circle id="hm-part-0" class="opacity-0 transition-opacity duration-300 stroke-indigo-400 fill-indigo-950/50" cx="170" cy="70" r="18" />
+              <!-- STAGE 2: Body -->
+              <line id="hm-part-1" class="opacity-0 transition-opacity duration-300 stroke-indigo-400" x1="170" y1="88" x2="170" y2="135" />
+              <!-- STAGE 3: Left Arm -->
+              <line id="hm-part-2" class="opacity-0 transition-opacity duration-300 stroke-indigo-400" x1="170" y1="100" x2="145" y2="120" />
+              <!-- STAGE 4: Right Arm -->
+              <line id="hm-part-3" class="opacity-0 transition-opacity duration-300 stroke-indigo-400" x1="170" y1="100" x2="195" y2="120" />
+              <!-- STAGE 5: Left Leg -->
+              <line id="hm-part-4" class="opacity-0 transition-opacity duration-300 stroke-indigo-400" x1="170" y1="135" x2="150" y2="175" />
+              <!-- STAGE 6: Right Leg -->
+              <line id="hm-part-5" class="opacity-0 transition-opacity duration-300 stroke-indigo-400" x1="170" y1="135" x2="190" y2="175" />
+            </svg>
+          </div>
+
+          <div class="w-full text-center mt-1">
+            <span id="hangman-status-text" class="text-xs font-semibold text-slate-400">Guess letters carefully! 6 mistakes allowed.</span>
+          </div>
+        </div>
+
+        <!-- Right Column: Mystery Word & On-screen QWERTY / Alphabet -->
+        <div class="md:col-span-7 bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col justify-between">
+          
+          <div>
+            <!-- Clue Header -->
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs uppercase font-semibold text-slate-400">Mystery Career Clue</span>
+              <button onclick="speakCurrentClue()" class="px-3 py-1 rounded-lg bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-indigo-200 text-xs font-medium flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-volume-high"></i>
+                <span>Listen</span>
+              </button>
+            </div>
+
+            <!-- Clue Text -->
+            <p id="hangman-clue-text" class="text-sm sm:text-base text-slate-100 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 leading-relaxed mb-5">
+              Loading mystery job description...
+            </p>
+
+            <!-- Revealed Word Display -->
+            <div id="hangman-word-container" class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 py-4 min-h-[70px] bg-slate-950/50 rounded-xl border border-slate-700 mb-5">
+              <!-- Underscore/Letter blanks rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- On-Screen Alphabet Keyboard -->
+          <div>
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-2 font-medium">
+              <span>Select or Type a Letter:</span>
+              <button onclick="requestHangmanVowelHint()" class="text-amber-400 hover:text-amber-300 text-xs font-medium flex items-center gap-1">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Reveal Vowel (-15 pts)
+              </button>
+            </div>
+            
+            <div id="hangman-keyboard" class="grid grid-cols-7 sm:grid-cols-9 gap-1.5 sm:gap-2">
+              <!-- A-Z buttons dynamically rendered -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: PROFESSOR MODE / FLASHCARDS GRID  -->
+    <!-- ========================================== -->
+    <div id="view-professor" class="game-view hidden flex flex-col flex-1 w-full gap-5">
+      
+      <!-- Professor Dashboard Header -->
+      <div class="bg-gradient-to-r from-slate-800 to-indigo-950/60 border border-slate-700/80 rounded-2xl p-5 sm:p-6 shadow-xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 text-indigo-400 font-semibold text-xs uppercase tracking-wider mb-1">
+              <i class="fa-solid fa-chalkboard-user"></i> Educator & Study Lounge
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold font-display text-white">Curriculum Review: 20 Professional Job Titles</h2>
+            <p class="text-slate-300 text-xs sm:text-sm mt-1 max-w-2xl">
+              Use this grid for classroom warm-ups, Project-Based Learning (PBL) job interviews, pronunciation drills, or quick student self-study. Click on any card to hear natural TTS speech.
+            </p>
+          </div>
+
+          <!-- Voice / Pronunciation Controls -->
+          <div class="flex flex-wrap items-center gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-700 text-xs">
+            <div>
+              <label class="block text-slate-400 font-medium mb-1">Speaking Speed</label>
+              <select id="tts-rate-select" class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200">
+                <option value="0.75">0.75x (Slower / ESL Learner)</option>
+                <option value="0.9" selected>0.9x (Natural Clear)</option>
+                <option value="1.0">1.0x (Standard Native)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-400 font-medium mb-1">Filter by Level</label>
+              <select id="professor-filter" onchange="filterProfessorCards(this.value)" class="bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200">
+                <option value="all">All 20 Occupations</option>
+                <option value="level1">Part 1: Widely Known (1-10)</option>
+                <option value="level2">Part 2: More Challenging (11-20)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flashcards Grid -->
+      <div id="professor-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- 20 Job Cards dynamically rendered -->
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- SUCCESS / COMPLETION MODAL -->
+  <div id="completion-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 rounded-3xl max-w-md w-full p-6 sm:p-8 text-center shadow-2xl relative">
+      <div class="w-16 h-16 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-400/30 flex items-center justify-center mx-auto mb-4 text-3xl">
+        <i class="fa-solid fa-trophy"></i>
+      </div>
+      <h3 class="text-2xl font-bold font-display text-white mb-2">Outstanding Performance!</h3>
+      <p class="text-sm text-slate-300 mb-6">You've mastered this vocabulary round. Here are your academic session achievements:</p>
+
+      <div class="grid grid-cols-2 gap-3 mb-6 text-left">
+        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-700">
+          <div class="text-[11px] text-slate-400 uppercase font-semibold">Total Score</div>
+          <div class="text-xl font-bold font-mono text-amber-400" id="modal-score">0</div>
+        </div>
+        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-700">
+          <div class="text-[11px] text-slate-400 uppercase font-semibold">Highest Streak</div>
+          <div class="text-xl font-bold font-mono text-emerald-400" id="modal-streak">0x</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-2">
+        <button onclick="closeModalAndRestart()" class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold text-sm transition">
+          Play Next Round
+        </button>
+        <button onclick="switchMode('professor'); closeModal();" class="w-full py-2.5 px-4 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl font-semibold text-sm transition">
+          Review Flashcards
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-5 right-5 pointer-events-none transform translate-y-10 opacity-0 transition-all duration-300 z-50 bg-slate-800 border border-slate-700 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs sm:text-sm">
+    <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+    <span id="toast-msg">Notification text</span>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    /* =====================================================================
+       1. DATA STRUCTURE: EXACT 20 UNIVERSITY ESL/EFL OCCUPATIONS
+       ===================================================================== */
+    const JOBS_DATA = [
+      // Part 1: Widely Known Professions (Level 1)
+      {
+        id: 1,
+        title: "Architect",
+        level: "level1",
+        category: "Widely Known",
+        description: "I design buildings, houses, and public spaces. I draw detailed plans using computers and make sure structure designs are safe, functional, and attractive.",
+        phonetic: "/ˈɑːr.kə.tekt/",
+        pedagogicalClue: "Begins with 'Arch-'. Focuses on buildings and blueprints.",
+        keywords: ["buildings", "plans", "safe", "functional", "attractive"]
+      },
+      {
+        id: 2,
+        title: "Software Developer",
+        level: "level1",
+        category: "Widely Known",
+        description: "I write, test, and maintain code for computer programs, mobile applications, or operating systems to solve specific user needs.",
+        phonetic: "/ˈsɑːft.wer dɪˈvel.ə.pɚ/",
+        pedagogicalClue: "Writes computer code, algorithms, and mobile applications.",
+        keywords: ["code", "computer programs", "maintain", "operating systems"]
+      },
+      {
+        id: 3,
+        title: "Graphic Designer",
+        level: "level1",
+        category: "Widely Known",
+        description: "I create visual concepts using digital tools or by hand to communicate ideas that inspire, inform, or captivate consumers for marketing campaigns.",
+        phonetic: "/ˈɡræf.ɪk dɪˈzaɪ.nɚ/",
+        pedagogicalClue: "Combines art, typography, and marketing visuals.",
+        keywords: ["visual concepts", "digital tools", "inspire", "marketing"]
+      },
+      {
+        id: 4,
+        title: "Human Resources (HR) Manager",
+        level: "level1",
+        category: "Widely Known",
+        description: "I oversee the hiring process, manage employee relations, organize training sessions, and ensure company policies are respected.",
+        phonetic: "/ˈhjuː.mən ˈriː.sɔːr.sɪz ˈmæn.ə.dʒɚ/",
+        pedagogicalClue: "Frequently shortened to 'HR'. Takes care of workers and hiring.",
+        keywords: ["hiring process", "employee relations", "training", "policies"]
+      },
+      {
+        id: 5,
+        title: "Civil Engineer",
+        level: "level1",
+        category: "Widely Known",
+        description: "I plan, design, and oversee the construction and maintenance of infrastructure projects like bridges, roads, dams, and water systems.",
+        phonetic: "/ˈsɪv.əl ˌen.dʒɪˈnɪr/",
+        pedagogicalClue: "Constructs large physical infrastructure: bridges, roads, and dams.",
+        keywords: ["infrastructure", "bridges", "roads", "dams"]
+      },
+      {
+        id: 6,
+        title: "Journalist",
+        level: "level1",
+        category: "Widely Known",
+        description: "I research, write, and report news stories for newspapers, magazines, television, or online media outlets.",
+        phonetic: "/ˈdʒɝː.nə.lɪst/",
+        pedagogicalClue: "Interviews sources and reports breaking news stories.",
+        keywords: ["research", "write", "news stories", "media outlets"]
+      },
+      {
+        id: 7,
+        title: "Financial Analyst",
+        level: "level1",
+        category: "Widely Known",
+        description: "I examine financial data, spot market trends, and prepare reports to help businesses and individuals make smart investment decisions.",
+        phonetic: "/faɪˈnæn.ʃəl ˈæn.ə.lɪst/",
+        pedagogicalClue: "Evaluates money markets, budgets, and stock investments.",
+        keywords: ["financial data", "market trends", "investment"]
+      },
+      {
+        id: 8,
+        title: "Event Planner",
+        level: "level1",
+        category: "Widely Known",
+        description: "I organize and coordinate all details for conferences, weddings, trade shows, and corporate gatherings from start to finish.",
+        phonetic: "/ɪˈvent ˈplæn.ɚ/",
+        pedagogicalClue: "Organizes schedules, catering, and venue bookings for ceremonies.",
+        keywords: ["organize", "conferences", "weddings", "gatherings"]
+      },
+      {
+        id: 9,
+        title: "Cybersecurity Specialist",
+        level: "level1",
+        category: "Widely Known",
+        description: "I monitor networks for security breaches, install software protection, and defend organizations against cyberattacks.",
+        phonetic: "/ˌsaɪ.bɚ.səˈkjʊr.ə.t̬i ˈspeʃ.əl.ɪst/",
+        pedagogicalClue: "Protects firewalls, servers, and networks against hackers.",
+        keywords: ["security breaches", "defend", "cyberattacks", "protection"]
+      },
+      {
+        id: 10,
+        title: "Data Analyst",
+        level: "level1",
+        category: "Widely Known",
+        description: "I collect, process, and perform statistical analyses on large sets of information to help management solve problems and improve strategies.",
+        phonetic: "/ˈdeɪ.t̬ə ˈæn.ə.lɪst/",
+        pedagogicalClue: "Works with spreadsheets, statistics, dashboards, and databases.",
+        keywords: ["statistical analyses", "information", "strategies", "solve problems"]
+      },
+
+      // Part 2: More Challenging Professions (Level 2)
+      {
+        id: 11,
+        title: "User Experience (UX) Designer",
+        level: "level2",
+        category: "Challenging",
+        description: "I focus on how users interact with digital products like apps or websites, making sure the overall journey is intuitive, efficient, and pleasant.",
+        phonetic: "/ˈjuː.zɚ ɪkˈspɪr.i.əns dɪˈzaɪ.nɚ/",
+        pedagogicalClue: "Often abbreviated 'UX Designer'. Optimizes user flow and intuitive navigation.",
+        keywords: ["interact", "digital products", "intuitive", "efficient"]
+      },
+      {
+        id: 12,
+        title: "Supply Chain Manager",
+        level: "level2",
+        category: "Challenging",
+        description: "I oversee the movement of products and raw materials from manufacturers to consumers, optimizing delivery times and reducing costs.",
+        phonetic: "/səˈplaɪ ˌtʃeɪn ˈmæn.ə.dʒɚ/",
+        pedagogicalClue: "Coordinates shipping, logistics, freight, and warehouse storage.",
+        keywords: ["movement of products", "raw materials", "delivery times", "reducing costs"]
+      },
+      {
+        id: 13,
+        title: "Compliance Officer",
+        level: "level2",
+        category: "Challenging",
+        description: "I check that a company follows all external laws, legal regulations, and internal ethical policies to prevent legal fines.",
+        phonetic: "/kəmˈplaɪ.əns ˈɑː.fɪ.sɚ/",
+        pedagogicalClue: "Ensures legal standards, ethical auditing, and corporate adherence.",
+        keywords: ["external laws", "regulations", "ethical policies", "fines"]
+      },
+      {
+        id: 14,
+        title: "Environmental Consultant",
+        level: "level2",
+        category: "Challenging",
+        description: "I advise businesses on how to reduce pollution, manage waste, and follow sustainability practices to lessen environmental impact.",
+        phonetic: "/ɪnˌvaɪ.rənˈmen.t̬əl kənˈsʌl.tənt/",
+        pedagogicalClue: "Helps companies stay green, reduce carbon footprints, and curb pollution.",
+        keywords: ["reduce pollution", "waste", "sustainability", "environmental impact"]
+      },
+      {
+        id: 15,
+        title: "Public Relations (PR) Specialist",
+        level: "level2",
+        category: "Challenging",
+        description: "I build and maintain a positive public image for companies or public figures by writing press releases and managing media relations.",
+        phonetic: "/ˈpʌb.lɪk rɪˈleɪ.ʃənz ˈspeʃ.əl.ɪst/",
+        pedagogicalClue: "Frequently known as 'PR Specialist'. Drafts press releases and coordinates interviews.",
+        keywords: ["positive public image", "press releases", "media relations"]
+      },
+      {
+        id: 16,
+        title: "Biomedical Engineer",
+        level: "level2",
+        category: "Challenging",
+        description: "I combine biology and engineering principles to design medical equipment, prosthetics, and diagnostic devices that improve healthcare.",
+        phonetic: "/ˌbaɪ.oʊˈmed.ɪ.kəl ˌen.dʒɪˈnɪr/",
+        pedagogicalClue: "Builds artificial organs, prosthetics, and hospital diagnostic monitors.",
+        keywords: ["biology and engineering", "prosthetics", "diagnostic devices", "healthcare"]
+      },
+      {
+        id: 17,
+        title: "Actuary",
+        level: "level2",
+        category: "Challenging",
+        description: "I use mathematics, statistics, and financial theory to analyze risk and uncertainty for insurance companies and financial institutions.",
+        phonetic: "/ˈæk.tʃu.er.i/",
+        pedagogicalClue: "A specialized mathematician calculating life tables and risk premiums.",
+        keywords: ["mathematics", "statistics", "risk and uncertainty", "insurance"]
+      },
+      {
+        id: 18,
+        title: "Scrum Master",
+        level: "level2",
+        category: "Challenging",
+        description: "I facilitate agile project management, guiding team members through short sprints, removing obstacles, and keeping team communication fluid.",
+        phonetic: "/ˈskrʌm ˌmæs.tɚ/",
+        pedagogicalClue: "Facilitates Agile daily stand-ups and sprint retrospectives.",
+        keywords: ["agile", "sprints", "removing obstacles", "communication"]
+      },
+      {
+        id: 19,
+        title: "Content Strategist",
+        level: "level2",
+        category: "Challenging",
+        description: "I plan, create, and manage digital text, video, and social media media to build brand engagement across different online platforms.",
+        phonetic: "/ˈkɑːn.tent ˈstræt̬.ə.dʒɪst/",
+        pedagogicalClue: "Plans editorial calendars, digital campaigns, and social storytelling.",
+        keywords: ["digital text", "video", "social media", "brand engagement"]
+      },
+      {
+        id: 20,
+        title: "Quality Assurance (QA) Tester",
+        level: "level2",
+        category: "Challenging",
+        description: "I systematically test software, apps, or physical products to identify bugs, defects, and performance issues before public release.",
+        phonetic: "/ˈkwɑː.lə.t̬i əˈʃʊr.əns ˈtes.tɚ/",
+        pedagogicalClue: "Known as 'QA Tester'. Hunts down software bugs and performance glitches.",
+        keywords: ["systematically test", "bugs", "defects", "performance issues"]
+      }
+    ];
+
+    /* =====================================================================
+       2. WEB AUDIO API SYNTHESIZER (NO EXTERNAL AUDIO FILES REQUIRED)
+       ===================================================================== */
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      playTap() {
+        if (this.muted) return;
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(140, this.ctx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.05);
+      }
+      playCorrect() {
+        if (this.muted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 arpeggio
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+          gain.gain.setValueAtTime(0.18, now + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.28);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + idx * 0.07);
+          osc.stop(now + idx * 0.07 + 0.3);
+        });
+      }
+      playWrong() {
+        if (this.muted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.linearRampToValueAtTime(110, now + 0.25);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      }
+      playFanfare() {
+        if (this.muted) return;
+        this.init();
+        const chords = [
+          { f: 523.25, t: 0 },
+          { f: 659.25, t: 0.12 },
+          { f: 783.99, t: 0.24 },
+          { f: 1046.50, t: 0.38 }
+        ];
+        chords.forEach(n => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(n.f, this.ctx.currentTime + n.t);
+          gain.gain.setValueAtTime(0.2, this.ctx.currentTime + n.t);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + n.t + 0.4);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + n.t);
+          osc.stop(this.ctx.currentTime + n.t + 0.45);
+        });
+      }
+    }
+    const sound = new SoundEngine();
+
+    function toggleMute() {
+      sound.muted = !sound.muted;
+      const icon = document.getElementById('sound-icon');
+      if (sound.muted) {
+        icon.className = 'fa-solid fa-volume-xmark text-rose-400';
+        showToast("Audio muted");
+      } else {
+        icon.className = 'fa-solid fa-volume-high text-slate-300';
+        showToast("Audio unmuted");
+        sound.playTap();
+      }
+    }
+
+    /* =====================================================================
+       3. TEXT-TO-SPEECH (TTS) ENGINE
+       ===================================================================== */
+    function speakText(text, onComplete) {
+      if (!('speechSynthesis' in window)) {
+        showToast("Speech synthesis not supported in this browser.");
+        return;
+      }
+      window.speechSynthesis.cancel(); // Stop current speech
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      const speedSelect = document.getElementById('tts-rate-select');
+      utterance.rate = speedSelect ? parseFloat(speedSelect.value) : 0.9;
+
+      // Select natural English voice if available
+      const voices = window.speechSynthesis.getVoices();
+      const engVoice = voices.find(v => (v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('David')))) 
+                    || voices.find(v => v.lang.startsWith('en'));
+      if (engVoice) utterance.voice = engVoice;
+
+      if (onComplete) {
+        utterance.onend = onComplete;
+        utterance.onerror = onComplete;
+      }
+      window.speechSynthesis.speak(utterance);
+    }
+
+    /* =====================================================================
+       4. GAME STATE MANAGEMENT
+       ===================================================================== */
+    const state = {
+      currentMode: 'unscramble', // 'unscramble' | 'hangman' | 'professor'
+      difficulty: 'level1',      // 'level1' | 'level2' | 'all'
+      activeDeck: [],
+      currentIndex: 0,
+      score: 0,
+      streak: 0,
+      timerSec: 0,
+      timerRemaining: 0,
+      timerInterval: null,
+      
+      // Unscramble specific
+      unscramble: {
+        currentJob: null,
+        targetCleanStr: "", // Alphabetic letters only in order
+        slots: [],          // array of objects: { char, filledChar, poolId }
+        pool: []            // array of objects: { id, char, used }
+      },
+
+      // Hangman specific
+      hangman: {
+        currentJob: null,
+        targetNormalized: "",
+        guessedLetters: new Set(),
+        mistakes: 0,
+        maxMistakes: 6
+      }
+    };
+
+    /* =====================================================================
+       5. INITIALIZATION & NAVIGATION
+       ===================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      // Load stored score if available
+      const savedScore = localStorage.getItem('career_quest_score');
+      if (savedScore) {
+        state.score = parseInt(savedScore, 10) || 0;
+        updateScoreDisplay();
+      }
+
+      renderProfessorGrid();
+      initializeDeck();
+      setupPhysicalKeyboard();
+
+      // Warm up voices
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          window.speechSynthesis.getVoices();
+        };
+      }
+    });
+
+    function setDifficulty(diff) {
+      state.difficulty = diff;
+      document.querySelectorAll('.diff-btn').forEach(b => {
+        b.className = 'diff-btn px-2.5 py-1 rounded-md font-medium text-xs text-slate-400 hover:text-slate-200 transition';
+      });
+      const activeBtn = document.getElementById(`diff-${diff}`);
+      if (activeBtn) {
+        activeBtn.className = 'diff-btn px-2.5 py-1 rounded-md font-medium text-xs transition bg-indigo-600 text-white shadow';
+      }
+      sound.playTap();
+      resetGameSession();
+      showToast(`Switched vocabulary to: ${diff === 'level1' ? 'Part 1 (Widely Known)' : diff === 'level2' ? 'Part 2 (Challenging)' : 'All 20 Jobs'}`);
+    }
+
+    function switchMode(mode) {
+      state.currentMode = mode;
+
+      // Update Nav Button Styles
+      ['unscramble', 'hangman', 'professor'].forEach(m => {
+        const btn = document.getElementById(`nav-${m}`);
+        const view = document.getElementById(`view-${m}`);
+        if (m === mode) {
+          btn.className = 'nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-white bg-indigo-600 shadow-sm';
+          view.classList.remove('hidden');
+        } else {
+          btn.className = 'nav-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800';
+          view.classList.add('hidden');
+        }
+      });
+
+      sound.playTap();
+
+      if (mode === 'unscramble') {
+        loadUnscrambleQuestion();
+      } else if (mode === 'hangman') {
+        loadHangmanQuestion();
+      }
+    }
+
+    function initializeDeck() {
+      let filtered = [];
+      if (state.difficulty === 'level1') {
+        filtered = JOBS_DATA.filter(j => j.level === 'level1');
+      } else if (state.difficulty === 'level2') {
+        filtered = JOBS_DATA.filter(j => j.level === 'level2');
+      } else {
+        filtered = [...JOBS_DATA];
+      }
+
+      // Fisher-Yates Shuffle
+      for (let i = filtered.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+      }
+
+      state.activeDeck = filtered;
+      state.currentIndex = 0;
+      loadActiveModeQuestion();
+    }
+
+    function resetGameSession() {
+      clearInterval(state.timerInterval);
+      initializeDeck();
+      showToast("Round restarted and randomized!");
+    }
+
+    function loadActiveModeQuestion() {
+      if (state.currentMode === 'unscramble') {
+        loadUnscrambleQuestion();
+      } else if (state.currentMode === 'hangman') {
+        loadHangmanQuestion();
+      }
+    }
+
+    /* =====================================================================
+       6. TIMER CONTROLLER
+       ===================================================================== */
+    function changeTimerSetting(val) {
+      state.timerSec = parseInt(val, 10);
+      const display = document.getElementById('timer-display');
+      if (state.timerSec > 0) {
+        display.classList.remove('hidden');
+        display.textContent = `${state.timerSec}s`;
+        startTimer();
+      } else {
+        display.classList.add('hidden');
+        clearInterval(state.timerInterval);
+      }
+    }
+
+    function startTimer() {
+      clearInterval(state.timerInterval);
+      if (state.timerSec <= 0) return;
+
+      state.timerRemaining = state.timerSec;
+      const display = document.getElementById('timer-display');
+      display.textContent = `${state.timerRemaining}s`;
+
+      state.timerInterval = setInterval(() => {
+        state.timerRemaining--;
+        display.textContent = `${state.timerRemaining}s`;
+
+        if (state.timerRemaining <= 5 && state.timerRemaining > 0) {
+          sound.playTap();
+        }
+
+        if (state.timerRemaining <= 0) {
+          clearInterval(state.timerInterval);
+          sound.playWrong();
+          showToast("Time's up for this job!", "fa-triangle-exclamation");
+          state.streak = 0;
+          updateScoreDisplay();
+          setTimeout(() => advanceToNextQuestion(), 1200);
+        }
+      }, 1000);
+    }
+
+    /* =====================================================================
+       7. MODE 1: WORD UNSCRAMBLE CONTROLLER
+       ===================================================================== */
+    function loadUnscrambleQuestion() {
+      if (state.currentIndex >= state.activeDeck.length) {
+        triggerRoundComplete();
+        return;
+      }
+
+      const job = state.activeDeck[state.currentIndex];
+      state.unscramble.currentJob = job;
+
+      // Update Question indicators
+      document.getElementById('unscramble-q-num').textContent = state.currentIndex + 1;
+      document.getElementById('unscramble-q-total').textContent = `Job ${state.currentIndex + 1} of ${state.activeDeck.length}`;
+      document.getElementById('unscramble-tag').textContent = job.category;
+      document.getElementById('unscramble-clue-text').textContent = job.description;
+
+      // Hide hint box
+      document.getElementById('unscramble-hint-box').classList.add('hidden');
+      document.getElementById('btn-unscramble-hint').disabled = false;
+
+      // Prepare letters
+      // We keep layout grouped by original words while only unscrambling alpha characters
+      const words = job.title.split(' ');
+      const rawAlphaChars = [];
+      const slots = [];
+      let globalSlotIdx = 0;
+
+      words.forEach((w, wIdx) => {
+        for (let ch of w) {
+          const isLetter = /[a-zA-Z]/.test(ch);
+          slots.push({
+            id: globalSlotIdx++,
+            wordIndex: wIdx,
+            char: ch,
+            isLetter: isLetter,
+            filledChar: isLetter ? null : ch,
+            poolId: null
+          });
+          if (isLetter) {
+            rawAlphaChars.push(ch.toUpperCase());
+          }
+        }
+      });
+
+      // Shuffle pool letters
+      const pool = rawAlphaChars.map((ch, idx) => ({
+        id: idx,
+        char: ch,
+        used: false
+      }));
+
+      // Shuffle pool array thoroughly
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+
+      state.unscramble.slots = slots;
+      state.unscramble.pool = pool;
+
+      renderUnscrambleUI();
+      if (state.timerSec > 0) startTimer();
+    }
+
+    function renderUnscrambleUI() {
+      const slotsContainer = document.getElementById('unscramble-slots-container');
+      const poolContainer = document.getElementById('unscramble-pool-container');
+      slotsContainer.innerHTML = '';
+      poolContainer.innerHTML = '';
+
+      // Group slots by words
+      const jobWords = state.unscramble.currentJob.title.split(' ');
+      let slotCounter = 0;
+
+      jobWords.forEach((wordStr, wIdx) => {
+        const wordGroup = document.createElement('div');
+        wordGroup.className = 'flex items-center gap-1.5 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800';
+
+        for (let i = 0; i < wordStr.length; i++) {
+          const slot = state.unscramble.slots[slotCounter];
+          const slotDiv = document.createElement('button');
+          slotDiv.type = "button";
+          slotDiv.dataset.slotId = slot.id;
+
+          if (!slot.isLetter) {
+            // Punctuation like () or -
+            slotDiv.className = 'w-7 h-10 flex items-center justify-center font-bold text-slate-400 text-sm select-none';
+            slotDiv.textContent = slot.char;
+          } else {
+            const hasChar = slot.filledChar !== null;
+            slotDiv.className = `w-8 sm:w-10 h-10 sm:h-12 rounded-lg flex items-center justify-center font-bold font-mono text-base sm:text-lg transition-all duration-200 select-none ${
+              hasChar 
+                ? 'bg-indigo-600 text-white border-2 border-indigo-400 shadow-md cursor-pointer hover:bg-rose-600 hover:border-rose-400 hover:text-white' 
+                : 'bg-slate-900/90 text-slate-500 border-2 border-dashed border-slate-700'
+            }`;
+            slotDiv.textContent = hasChar ? slot.filledChar : '';
+
+            // Clicking a filled slot returns the tile
+            if (hasChar) {
+              slotDiv.onclick = () => returnSlotLetter(slot.id);
+            }
+          }
+
+          wordGroup.appendChild(slotDiv);
+          slotCounter++;
+        }
+
+        slotsContainer.appendChild(wordGroup);
+      });
+
+      // Render pool tiles
+      state.unscramble.pool.forEach(item => {
+        const tile = document.createElement('button');
+        tile.type = 'button';
+        tile.className = `w-9 sm:w-11 h-10 sm:h-12 rounded-xl font-bold font-mono text-base sm:text-lg transition-all duration-150 shadow flex items-center justify-center select-none ${
+          item.used 
+            ? 'opacity-20 scale-90 cursor-not-allowed bg-slate-800 text-slate-600 border border-slate-800' 
+            : 'bg-slate-800 hover:bg-indigo-700 text-slate-100 hover:text-white border border-slate-600 hover:border-indigo-400 active:scale-95 hover:shadow-indigo-500/25'
+        }`;
+        tile.textContent = item.char;
+        tile.disabled = item.used;
+        tile.onclick = () => {
+          placeLetterFromPool(item.id);
+        };
+        poolContainer.appendChild(tile);
+      });
+
+      // Character count indicator
+      const totalLetters = state.unscramble.slots.filter(s => s.isLetter).length;
+      const filledCount = state.unscramble.slots.filter(s => s.isLetter && s.filledChar !== null).length;
+      document.getElementById('unscramble-char-count').textContent = `${filledCount} / ${totalLetters} letters`;
+    }
+
+    function placeLetterFromPool(poolId) {
+      const poolItem = state.unscramble.pool.find(p => p.id === poolId);
+      if (!poolItem || poolItem.used) return;
+
+      // Find first empty letter slot
+      const nextSlot = state.unscramble.slots.find(s => s.isLetter && s.filledChar === null);
+      if (!nextSlot) return;
+
+      poolItem.used = true;
+      nextSlot.filledChar = poolItem.char;
+      nextSlot.poolId = poolItem.id;
+
+      sound.playTap();
+      renderUnscrambleUI();
+      checkUnscrambleCompletion();
+    }
+
+    function returnSlotLetter(slotId) {
+      const slot = state.unscramble.slots.find(s => s.id === slotId);
+      if (!slot || !slot.isLetter || slot.filledChar === null) return;
+
+      const poolItem = state.unscramble.pool.find(p => p.id === slot.poolId);
+      if (poolItem) poolItem.used = false;
+
+      slot.filledChar = null;
+      slot.poolId = null;
+
+      sound.playTap();
+      renderUnscrambleUI();
+    }
+
+    function unscrambleUndo() {
+      // Find the last filled slot
+      const filledSlots = state.unscramble.slots.filter(s => s.isLetter && s.filledChar !== null);
+      if (filledSlots.length === 0) return;
+      const lastSlot = filledSlots[filledSlots.length - 1];
+      returnSlotLetter(lastSlot.id);
+    }
+
+    function unscrambleClearAll() {
+      state.unscramble.slots.forEach(s => {
+        if (s.isLetter) {
+          s.filledChar = null;
+          s.poolId = null;
+        }
+      });
+      state.unscramble.pool.forEach(p => p.used = false);
+      sound.playTap();
+      renderUnscrambleUI();
+    }
+
+    function checkUnscrambleCompletion() {
+      const allFilled = state.unscramble.slots.every(s => s.filledChar !== null);
+      if (!allFilled) return;
+
+      // Verify answer against clean target string
+      const userStr = state.unscramble.slots.map(s => s.filledChar.toUpperCase()).join('');
+      const targetStr = state.unscramble.currentJob.title.toUpperCase();
+
+      if (userStr === targetStr) {
+        // Success!
+        handleWordSuccess(state.unscramble.currentJob);
+      } else {
+        // Incorrect
+        sound.playWrong();
+        const container = document.getElementById('unscramble-slots-container');
+        container.classList.add('shake-anim');
+        setTimeout(() => container.classList.remove('shake-anim'), 450);
+        showToast("Keep trying! Double-check the spelling.", "fa-circle-xmark");
+      }
+    }
+
+    function requestUnscrambleHint() {
+      const job = state.unscramble.currentJob;
+      const hintBox = document.getElementById('unscramble-hint-box');
+      const hintText = document.getElementById('unscramble-hint-content');
+
+      // Deduct points slightly
+      state.score = Math.max(0, state.score - 10);
+      updateScoreDisplay();
+
+      hintText.innerHTML = `<strong>${job.pedagogicalClue}</strong> (IPA: <em>${job.phonetic}</em>)`;
+      hintBox.classList.remove('hidden');
+      document.getElementById('btn-unscramble-hint').disabled = true;
+
+      // Automatically place the first empty letter if available
+      const emptySlot = state.unscramble.slots.find(s => s.isLetter && s.filledChar === null);
+      if (emptySlot) {
+        const correctChar = emptySlot.char.toUpperCase();
+        const availablePoolItem = state.unscramble.pool.find(p => !p.used && p.char === correctChar);
+        if (availablePoolItem) {
+          placeLetterFromPool(availablePoolItem.id);
+        }
+      }
+      showToast("Hint revealed! (-10 points)");
+    }
+
+    function skipCurrentWord() {
+      sound.playTap();
+      state.streak = 0;
+      updateScoreDisplay();
+      showToast(`Skipped: ${state.unscramble.currentJob.title}`);
+      advanceToNextQuestion();
+    }
+
+    /* =====================================================================
+       8. MODE 2: HANGMAN / MYSTERY WORD CONTROLLER
+       ===================================================================== */
+    function loadHangmanQuestion() {
+      if (state.currentIndex >= state.activeDeck.length) {
+        triggerRoundComplete();
+        return;
+      }
+
+      const job = state.activeDeck[state.currentIndex];
+      state.hangman.currentJob = job;
+      state.hangman.guessedLetters.clear();
+      state.hangman.mistakes = 0;
+
+      // Update Clue
+      document.getElementById('hangman-clue-text').textContent = job.description;
+      updateHangmanVisuals();
+      renderHangmanWord();
+      renderHangmanKeyboard();
+
+      if (state.timerSec > 0) startTimer();
+    }
+
+    function renderHangmanWord() {
+      const container = document.getElementById('hangman-word-container');
+      container.innerHTML = '';
+
+      const job = state.hangman.currentJob;
+      const words = job.title.split(' ');
+
+      let allLettersGuessed = true;
+
+      words.forEach(wordStr => {
+        const wordWrap = document.createElement('div');
+        wordWrap.className = 'flex items-center gap-1.5 mx-1.5';
+
+        for (let char of wordStr) {
+          const upperChar = char.toUpperCase();
+          const isLetter = /[A-Z]/.test(upperChar);
+
+          const slot = document.createElement('div');
+          slot.className = 'w-7 sm:w-9 h-10 sm:h-12 rounded-lg border-b-4 flex items-center justify-center font-mono font-bold text-base sm:text-xl transition-all duration-200 select-none';
+
+          if (!isLetter) {
+            // Punctuation like () or -
+            slot.className += ' border-transparent text-slate-400';
+            slot.textContent = char;
+          } else if (state.hangman.guessedLetters.has(upperChar)) {
+            slot.className += ' border-indigo-500 bg-slate-900/80 text-white';
+            slot.textContent = upperChar;
+          } else {
+            slot.className += ' border-slate-600 bg-slate-900/40 text-transparent';
+            slot.textContent = '_';
+            allLettersGuessed = false;
+          }
+          wordWrap.appendChild(slot);
+        }
+
+        container.appendChild(wordWrap);
+      });
+
+      if (allLettersGuessed) {
+        handleWordSuccess(job);
+      }
+    }
+
+    function renderHangmanKeyboard() {
+      const keyboard = document.getElementById('hangman-keyboard');
+      keyboard.innerHTML = '';
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+
+      letters.forEach(letter => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        const isGuessed = state.hangman.guessedLetters.has(letter);
+
+        let btnClass = 'h-9 sm:h-10 rounded-lg font-bold font-mono text-xs sm:text-sm transition-all duration-150 flex items-center justify-center ';
+        if (isGuessed) {
+          btnClass += 'opacity-25 bg-slate-900 text-slate-600 border border-slate-800 cursor-not-allowed';
+        } else {
+          btnClass += 'bg-slate-700/80 hover:bg-indigo-600 text-white border border-slate-600 hover:border-indigo-400 active:scale-95 shadow-sm';
+        }
+
+        btn.className = btnClass;
+        btn.textContent = letter;
+        btn.disabled = isGuessed || state.hangman.mistakes >= state.hangman.maxMistakes;
+        btn.onclick = () => handleHangmanGuess(letter);
+
+        keyboard.appendChild(btn);
+      });
+    }
+
+    function handleHangmanGuess(letter) {
+      if (state.hangman.guessedLetters.has(letter) || state.hangman.mistakes >= state.hangman.maxMistakes) return;
+
+      state.hangman.guessedLetters.add(letter);
+      const cleanTarget = state.hangman.currentJob.title.toUpperCase();
+
+      if (cleanTarget.includes(letter)) {
+        sound.playTap();
+      } else {
+        // Mistake!
+        state.hangman.mistakes++;
+        sound.playWrong();
+        updateHangmanVisuals();
+
+        if (state.hangman.mistakes >= state.hangman.maxMistakes) {
+          handleHangmanGameOver();
+          return;
+        }
+      }
+
+      renderHangmanWord();
+      renderHangmanKeyboard();
+    }
+
+    function updateHangmanVisuals() {
+      // Update Gallows Parts (0 to 5)
+      for (let i = 0; i < 6; i++) {
+        const part = document.getElementById(`hm-part-${i}`);
+        if (part) {
+          if (i < state.hangman.mistakes) {
+            part.classList.remove('opacity-0');
+            part.classList.add('opacity-100');
+          } else {
+            part.classList.remove('opacity-100');
+            part.classList.add('opacity-0');
+          }
+        }
+      }
+
+      // Update Hearts
+      const heartsContainer = document.getElementById('hangman-hearts');
+      const remainingLives = state.hangman.maxMistakes - state.hangman.mistakes;
+      let heartsHtml = '';
+      for (let i = 0; i < 6; i++) {
+        if (i < remainingLives) {
+          heartsHtml += '<i class="fa-solid fa-heart text-rose-500"></i>';
+        } else {
+          heartsHtml += '<i class="fa-regular fa-heart text-slate-600"></i>';
+        }
+      }
+      heartsContainer.innerHTML = heartsHtml;
+
+      const statusText = document.getElementById('hangman-status-text');
+      if (remainingLives === 1) {
+        statusText.textContent = "Caution! Only 1 chance remaining!";
+        statusText.className = "text-xs font-semibold text-rose-400 animate-pulse";
+      } else {
+        statusText.textContent = `Mistakes: ${state.hangman.mistakes} / ${state.hangman.maxMistakes}`;
+        statusText.className = "text-xs font-semibold text-slate-400";
+      }
+    }
+
+    function handleHangmanGameOver() {
+      state.streak = 0;
+      updateScoreDisplay();
+      showToast(`Out of lives! The job was: ${state.hangman.currentJob.title}`, "fa-face-frown");
+
+      // Reveal whole word in red
+      const container = document.getElementById('hangman-word-container');
+      container.innerHTML = `<span class="text-rose-400 font-bold font-mono text-xl animate-bounce">${state.hangman.currentJob.title}</span>`;
+
+      setTimeout(() => advanceToNextQuestion(), 2200);
+    }
+
+    function requestHangmanVowelHint() {
+      state.score = Math.max(0, state.score - 15);
+      updateScoreDisplay();
+
+      const vowels = ['A', 'E', 'I', 'O', 'U'];
+      const target = state.hangman.currentJob.title.toUpperCase();
+      const unrevealedVowels = vowels.filter(v => target.includes(v) && !state.hangman.guessedLetters.has(v));
+
+      if (unrevealedVowels.length > 0) {
+        const chosen = unrevealedVowels[0];
+        handleHangmanGuess(chosen);
+        showToast(`Revealed vowel: '${chosen}' (-15 pts)`);
+      } else {
+        showToast("No remaining vowels to reveal!");
+      }
+    }
+
+    /* =====================================================================
+       9. SUCCESS & ADVANCEMENT (BOTH MODES)
+       ===================================================================== */
+    function handleWordSuccess(job) {
+      clearInterval(state.timerInterval);
+      sound.playCorrect();
+
+      // Confetti burst
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 50,
+          spread: 60,
+          origin: { y: 0.7 }
+        });
+      }
+
+      // Calculate score with streak multiplier
+      state.streak++;
+      const multiplier = 1 + (state.streak * 0.2);
+      const pointsEarned = Math.round(50 * multiplier);
+      state.score += pointsEarned;
+      updateScoreDisplay();
+
+      // Audio pronunciation of the completed job title
+      speakText(`${job.title}`);
+
+      showToast(`Correct! +${pointsEarned} pts (${state.streak}x streak)`, "fa-circle-check");
+
+      if (state.streak % 3 === 0) {
+        sound.playFanfare();
+      }
+
+      setTimeout(() => {
+        advanceToNextQuestion();
+      }, 1600);
+    }
+
+    function advanceToNextQuestion() {
+      state.currentIndex++;
+      if (state.currentIndex >= state.activeDeck.length) {
+        triggerRoundComplete();
+      } else {
+        loadActiveModeQuestion();
+      }
+    }
+
+    function triggerRoundComplete() {
+      clearInterval(state.timerInterval);
+      sound.playFanfare();
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+
+      document.getElementById('modal-score').textContent = state.score;
+      document.getElementById('modal-streak').textContent = `${state.streak}x`;
+      document.getElementById('completion-modal').classList.remove('hidden');
+
+      // Persist score
+      localStorage.setItem('career_quest_score', state.score.toString());
+    }
+
+    function closeModal() {
+      document.getElementById('completion-modal').classList.add('hidden');
+    }
+
+    function closeModalAndRestart() {
+      closeModal();
+      resetGameSession();
+    }
+
+    function updateScoreDisplay() {
+      document.getElementById('stat-score').textContent = state.score;
+      document.getElementById('stat-streak').textContent = `${state.streak}x`;
+    }
+
+    /* =====================================================================
+       10. PHYSICAL KEYBOARD INTEGRATION
+       ===================================================================== */
+    function setupPhysicalKeyboard() {
+      window.addEventListener('keydown', (e) => {
+        // Prevent key capture if user is typing into any input or select
+        if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
+
+        const key = e.key.toUpperCase();
+
+        if (state.currentMode === 'unscramble') {
+          if (/^[A-Z]$/.test(key)) {
+            // Find unused matching letter in pool
+            const poolItem = state.unscramble.pool.find(p => !p.used && p.char === key);
+            if (poolItem) {
+              placeLetterFromPool(poolItem.id);
+            } else {
+              sound.playTap();
+            }
+          } else if (e.key === 'Backspace') {
+            e.preventDefault();
+            unscrambleUndo();
+          } else if (e.key === 'Enter') {
+            checkUnscrambleCompletion();
+          }
+        } else if (state.currentMode === 'hangman') {
+          if (/^[A-Z]$/.test(key)) {
+            handleHangmanGuess(key);
+          }
+        }
+      });
+    }
+
+    /* =====================================================================
+       11. PROFESSOR GRID & STUDY FLASHCARDS
+       ===================================================================== */
+    function renderProfessorGrid() {
+      const grid = document.getElementById('professor-grid');
+      grid.innerHTML = '';
+
+      JOBS_DATA.forEach(job => {
+        const card = document.createElement('div');
+        card.className = `prof-card relative rounded-2xl p-5 border transition-all duration-200 hover:-translate-y-1 hover:shadow-xl bg-slate-800/80 border-slate-700/80 flex flex-col justify-between`;
+        card.dataset.level = job.level;
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${job.level === 'level1' ? 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20' : 'bg-purple-500/10 text-purple-300 border border-purple-500/20'}">
+                ${job.category}
+              </span>
+              <button onclick="speakJobFull('${job.id}')" class="w-8 h-8 rounded-lg bg-slate-700/70 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition" title="Listen to Native Pronunciation">
+                <i class="fa-solid fa-volume-high text-xs"></i>
+              </button>
+            </div>
+
+            <h3 class="text-base font-bold text-white font-display">${job.title}</h3>
+            <p class="text-xs text-indigo-400 font-mono mb-2">${job.phonetic}</p>
+
+            <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 mb-3">
+              "${job.description}"
+            </p>
+          </div>
+
+          <div>
+            <div class="text-[11px] text-amber-300/90 font-medium mb-2">
+              <i class="fa-regular fa-lightbulb text-amber-400"></i> Clue: ${job.pedagogicalClue}
+            </div>
+
+            <div class="flex flex-wrap gap-1 pt-2 border-t border-slate-700/60">
+              ${job.keywords.map(kw => `<span class="text-[10px] bg-slate-900 px-2 py-0.5 rounded text-slate-400 font-mono">#${kw}</span>`).join('')}
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function filterProfessorCards(level) {
+      document.querySelectorAll('.prof-card').forEach(card => {
+        if (level === 'all' || card.dataset.level === level) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      sound.playTap();
+    }
+
+    function speakJobFull(jobId) {
+      const job = JOBS_DATA.find(j => j.id == jobId);
+      if (!job) return;
+      sound.playTap();
+      speakText(`${job.title}. ${job.description}`);
+    }
+
+    function speakCurrentClue() {
+      let clue = "";
+      if (state.currentMode === 'unscramble' && state.unscramble.currentJob) {
+        clue = state.unscramble.currentJob.description;
+      } else if (state.currentMode === 'hangman' && state.hangman.currentJob) {
+        clue = state.hangman.currentJob.description;
+      }
+      if (clue) {
+        sound.playTap();
+        speakText(clue);
+      }
+    }
+
+    /* =====================================================================
+       12. ACCESSIBLE TOAST NOTIFIER
+       ===================================================================== */
+    let toastTimeout = null;
+    function showToast(message, iconClass = "fa-circle-info") {
+      const toast = document.getElementById('toast');
+      const icon = document.getElementById('toast-icon');
+      const msg = document.getElementById('toast-msg');
+
+      icon.className = `fa-solid ${iconClass} ${iconClass.includes('check') ? 'text-emerald-400' : iconClass.includes('exclamation') ? 'text-amber-400' : 'text-indigo-400'} text-base`;
+      msg.textContent = message;
+
+      toast.classList.remove('translate-y-10', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-10', 'opacity-0');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
